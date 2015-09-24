@@ -1,0 +1,42 @@
+{
+   "kind": "BuildConfig",
+   "apiVersion": "v1",
+   "metadata": {
+      "name": "demo-app-docker-build"
+   },
+   "spec": {
+      "serviceAccount": "builder",
+      "triggers": [
+         {
+            "type": "ConfigChange"
+         }
+      ],
+      "source": {
+         "type": "Git",
+         "git": {
+            "uri": "git://github.com/flaviomu/demo-app.git"
+         }
+      },
+      "strategy": {
+         "type": "Docker",
+         "dockerStrategy": {
+            "from": {
+               "kind": "DockerImage",
+	       "name": "flaviomu/nubomedia-signaling-plane:v1"
+            }
+         }
+      },
+      "output": {
+         "to": {
+            "kind": "ImageStreamTag",
+            "name": "demo-app-docker"
+         },
+         "pushSecret": {
+            "name": "dockerhub"
+         }
+      },
+      "status": {
+        "lastVersion": 0
+      }
+   }
+}
